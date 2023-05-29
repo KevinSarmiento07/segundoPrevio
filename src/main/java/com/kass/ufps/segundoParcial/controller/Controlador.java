@@ -1,6 +1,7 @@
 package com.kass.ufps.segundoParcial.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -14,8 +15,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import com.kass.ufps.segundoParcial.modelo.Continente;
+import com.kass.ufps.segundoParcial.modelo.Resultado;
 import com.kass.ufps.segundoParcial.modelo.Seleccion;
 import com.kass.ufps.segundoParcial.repository.ContinenteRepository;
+import com.kass.ufps.segundoParcial.repository.ResultadoRepository;
 import com.kass.ufps.segundoParcial.repository.SeleccionRepository;
 
 import jakarta.validation.Valid;
@@ -31,14 +34,15 @@ public class Controlador {
 	@Autowired
     private ContinenteRepository continenteRepository;
 	
+	@Autowired
+	private ResultadoRepository resultadoRepository;
+	
 	
 	
 	@GetMapping("/selecciones")
 	public String listarSelecciones(Model model) {
 		System.out.println("Entro en /selecciones");
 		List<Seleccion> selecciones = seleccionRepository.findAll();
-		
-		
 		model.addAttribute("selecciones", selecciones);
 		return "listarSelecciones";
 	}
@@ -85,6 +89,22 @@ public class Controlador {
 		
 		seleccionRepository.deleteById(id);
 		return "redirect:/controlador/selecciones";
+	}
+	
+	
+	@GetMapping("/selecciones/{id}/resultados")
+	public String listarEquipos(Model model, @PathVariable("id") Integer id) {
+		System.out.println("entro en resultados");
+		Seleccion seleccion = seleccionRepository.findById(id).orElse(null);
+		
+		System.out.println(seleccion.getId());
+		List<Resultado> resultados = resultadoRepository.findBySeleccion(seleccion);
+		for(Resultado resultado : resultados) {
+			System.out.println(resultado.toString() + " en resltados");
+		}
+		 model.addAttribute("resultados", resultados);
+	     model.addAttribute("seleccion", seleccion);
+		return "listarResultados";
 	}
 	
 	

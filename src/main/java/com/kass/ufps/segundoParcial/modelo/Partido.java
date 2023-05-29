@@ -24,7 +24,7 @@ public class Partido {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Integer id;
 	
-	private Date date;
+	private Date fecha;
 	
 	@ManyToOne
 	@JoinColumn(name = "estadio_id")
