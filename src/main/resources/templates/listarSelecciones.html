@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>Selecciones</title>
+</head>
+<body>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Nombre</th>
+                <th>Continente</th>
+                <th>Grupo</th>
+                <th>Acciones</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="seleccion : ${selecciones}">
+                <td th:text="${seleccion.id}"></td>
+                <td th:text="${seleccion.nombre}"></td>
+                <td th:text="${seleccion.continente.nombre}"></td>
+                <td th:text="${seleccion.grupo}"></td>
+                <td> <a th:href="@{/controlador/selecciones/editar/{id}(id=${seleccion.id})}">Editar</a>  <a th:href="@{/controlador/selecciones/eliminar/{id}(id=${seleccion.id})}">Eliminar</a>   </td>
+            </tr>
+        </tbody>
+    </table>
+    
+    
+    <a th:href="@{/controlador/agregar}">Registrar una selecciones</a>
+</body>
+</html>

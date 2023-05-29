@@ -5,67 +5,91 @@ import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 
-import com.kass.ufps.segundoParcial.modelo.Usuario;
-import com.kass.ufps.segundoParcial.services.UsuarioService;
+import com.kass.ufps.segundoParcial.modelo.Continente;
+import com.kass.ufps.segundoParcial.modelo.Seleccion;
+import com.kass.ufps.segundoParcial.repository.ContinenteRepository;
+import com.kass.ufps.segundoParcial.repository.SeleccionRepository;
+
+import jakarta.validation.Valid;
 
 @Controller
-@RequestMapping("/")
+@RequestMapping("/controlador")
 public class Controlador {
 
-	@Autowired
-	private UsuarioService usuarioService;
 	
-	@GetMapping("/")
-	public String mostrarIndex(Model model) {
-		System.out.println("ESTA AQUI");
-		List<Usuario> usuarios = usuarioService.listarUsuarios();
-		usuarios.sort((u1, u2) -> u1.getNombre().compareTo(u2.getNombre()));
-		for(Usuario usuario : usuarios) {
-			System.out.println(usuario.getNombre() +  "entro aqui ");
-		}
-		model.addAttribute("usuarios", usuarios);
-		return "index";
+	@Autowired
+	private SeleccionRepository seleccionRepository;
+	
+	@Autowired
+    private ContinenteRepository continenteRepository;
+	
+	
+	
+	@GetMapping("/selecciones")
+	public String listarSelecciones(Model model) {
+		System.out.println("Entro en /selecciones");
+		List<Seleccion> selecciones = seleccionRepository.findAll();
+		
+		
+		model.addAttribute("selecciones", selecciones);
+		return "listarSelecciones";
 	}
+	
 	
 	@GetMapping("/agregar")
-	public String agregarForm(Model model) {
-		Usuario usuario = new Usuario();
-		System.out.println(usuario.getId() + " IDDDD");
-		model.addAttribute("usuario", usuario);
-		return "agregar";
+	public String agregarSeleccion(Seleccion seleccion, Model model) {
+		
+		List<Continente> continentes = continenteRepository.findAll();
+		model.addAttribute("continentes", continentes);
+		return "seleccionAgregar";
 	}
 	
-	@PostMapping("/agregar")
-	public String procesarFormAgregar(@ModelAttribute("usuario") Usuario usuario) {
-		usuarioService.crearUsuario(usuario);
-		return "redirect:/";
+		
+	@PostMapping("/selecciones")
+	public String procesarFormulario(@Valid Seleccion seleccion, BindingResult result, Model model) {
+		System.out.println("entro en prcoesar");
+		Seleccion nuevaSeleccion = seleccionRepository.save(seleccion);
+		System.out.println(nuevaSeleccion.getNombre() + " "  + nuevaSeleccion.getContinente().getNombre());
+		model.addAttribute("seleccion", nuevaSeleccion);
+		return "redirect:/controlador/selecciones";
 	}
 	
-	@GetMapping("/editar/{id}")
-	public String editar(@PathVariable("id") Integer id, Model model) {
-		Usuario usuario = usuarioService.buscarUsuarioPorId(id);
-		model.addAttribute("usuario", usuario);
-		return "agregar";
-	}
 	
+	@GetMapping("/selecciones/editar/{id}")
+	public String editar(Seleccion seleccion, Model model) {
+		Seleccion seleccionEditada = seleccionRepository.findById(seleccion.getId()).orElse(null);
+		List<Continente> continentes = continenteRepository.findAll();
+		model.addAttribute("seleccion", seleccionEditada);
+		model.addAttribute("continentes", continentes);
+		return "seleccionEditar";
+	}
 	
 	@PostMapping("/editar/{id}")
-	public String editar(Usuario usuario, Model model, @PathVariable("id") Integer id) {
-		usuario.setId(id);
-		usuarioService.editarUsuario(usuario);
-		return "redirect:/";
+	public String editar(@PathVariable("id") Integer id, Seleccion seleccion) {
+		System.out.println("entro en editar post");
+		seleccion.setId(id);
+		seleccionRepository.save(seleccion);
+		return "redirect:/controlador/selecciones";
 	}
 	
-	
-	@GetMapping("/eliminar/{id}")
+	@GetMapping("/selecciones/eliminar/{id}")
 	public String eliminar(@PathVariable("id") Integer id) {
-		usuarioService.eliminarUsuario(id);
-		return "redirect:/";
+		
+		seleccionRepository.deleteById(id);
+		return "redirect:/controlador/selecciones";
 	}
+	
+	
+	
+	
+	
+	
 }

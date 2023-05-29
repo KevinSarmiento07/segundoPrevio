@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Agregar Selección</title>
+</head>
+<body>
+    <h2>Agregar Selección</h2>
+    <form th:action="@{/controlador/editar/{id}(id=${seleccion.id})}" th:object="${seleccion}" method="post">
+        
+        <div>
+            <label>Nombre:</label>
+            <input type="text" th:field="*{nombre}">
+        </div>
+        <div>
+            <label>Continente:</label>
+            <select th:field="*{continente}">
+                <option th:each="continente : ${continentes}" th:value="${continente.id}" th:text="${continente.nombre}"></option>
+            </select>
+        </div>
+        <div>
+            <label>Grupo:</label>
+            <input type="text" th:field="*{grupo}">
+        </div>
+        <button type="submit">Agregar</button>
+    </form>
+</body>
+</html>
