@@ -6,7 +6,7 @@
 </head>
 <body>
     <h2>Agregar Selección</h2>
-    <form th:action="@{/controlador/editar/{id}(id=${seleccion.id})}" th:object="${seleccion}" method="post">
+    <form th:action="@{/controlador/selecciones/editar/{id}(id=${seleccion.id})}" th:object="${seleccion}" method="post">
         
         <div>
             <label>Nombre:</label>

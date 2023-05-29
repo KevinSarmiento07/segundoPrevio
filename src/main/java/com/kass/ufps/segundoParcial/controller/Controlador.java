@@ -72,7 +72,7 @@ public class Controlador {
 		return "seleccionEditar";
 	}
 	
-	@PostMapping("/editar/{id}")
+	@PostMapping("/selecciones/editar/{id}")
 	public String editar(@PathVariable("id") Integer id, Seleccion seleccion) {
 		System.out.println("entro en editar post");
 		seleccion.setId(id);
