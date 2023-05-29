@@ -3,24 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <title>Actualizar Selección</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
 </head>
 <body>
-    <h2>Actualizar Selección</h2>
-    <form th:action="@{/seleccion/{id}}" th:object="${seleccion}" method="post">
-        
+    <div class="container">
+        <h2>Actualizar Selección</h2>
+        <form th:action="@{/seleccion/{id}}" th:object="${seleccion}" method="post">
 
-        <label for="nombre">Nombre:</label>
-        <input type="text" id="nombre" name="nombre" th:field="*{nombre}">
+            <div class="form-group">
+                <label for="nombre">Nombre:</label>
+                <input type="text" id="nombre" name="nombre" class="form-control" th:field="*{nombre}">
+            </div>
 
-        <label for="continente">Continente:</label>
-        <select id="continente" name="continente.id" th:field="*{continente}">
-            <option th:each="continente : ${continentes}" th:value="${continente.id}" th:text="${continente.nombre}"></option>
-        </select>
+            <div class="form-group">
+                <label for="continente">Continente:</label>
+                <select id="continente" name="continente.id" class="form-control" th:field="*{continente}">
+                    <option th:each="continente : ${continentes}" th:value="${continente.id}" th:text="${continente.nombre}"></option>
+                </select>
+            </div>
 
-        <label for="grupo">Grupo:</label>
-        <input type="text" id="grupo" name="grupo" th:field="*{grupo}">
+            <div class="form-group">
+                <label for="grupo">Grupo:</label>
+                <input type="text" id="grupo" name="grupo" class="form-control" th:field="*{grupo}">
+            </div>
 
-        <button type="submit">Actualizar</button>
-    </form>
+            <button type="submit" class="btn btn-primary">Actualizar</button>
+        </form>
+    </div>
+    
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 </body>
 </html>

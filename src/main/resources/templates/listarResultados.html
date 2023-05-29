@@ -3,29 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <title>Resultados de la Selección</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
 </head>
 <body>
-    <h1>Resultados de la selección: <span th:text="${seleccion.nombre}"></span></h1>
+    <div class="container">
+        <h1>Resultados de la selección: <span th:text="${seleccion.nombre}"></span></h1>
+        
+        <table class="table">
+            <thead class="thead-light">
+                <tr>
+                    <th>ID</th>
+                    <th>Partido</th>
+                    <th>Goles</th>
+                    <th>Amarillas</th>
+                    <th>Rojas</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="resultado : ${resultados}">
+                    <td th:text="${resultado.id}"></td>
+                    <td th:text="${resultado.seleccion.nombre}"></td>
+                    <td th:text="${resultado.goles}"></td>
+                    <td th:text="${resultado.amarillas}"></td>
+                    <td th:text="${resultado.rojas}"></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
     
-    <table>
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Partido</th>
-                <th>Goles</th>
-                <th>Amarillas</th>
-                <th>Rojas</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr th:each="resultado : ${resultados}">
-                <td th:text="${resultado.id}"></td>
-                <td th:text="${resultado.seleccion.nombre}"></td>
-                <td th:text="${resultado.goles}"></td>
-                <td th:text="${resultado.amarillas}"></td>
-                <td th:text="${resultado.rojas}"></td>
-            </tr>
-        </tbody>
-    </table>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 </body>
 </html>

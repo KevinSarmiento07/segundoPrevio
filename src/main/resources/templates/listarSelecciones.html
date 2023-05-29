@@ -1,36 +1,42 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
 <head>
-<meta charset="UTF-8">
-<title>Selecciones</title>
+    <meta charset="UTF-8">
+    <title>Selecciones</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
 </head>
 <body>
-    <table>
-        <thead>
-            <tr>
-                <th>ID</th>
-                <th>Nombre</th>
-                <th>Continente</th>
-                <th>Grupo</th>
-                <th>Acciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr th:each="seleccion : ${selecciones}">
-                <td th:text="${seleccion.id}"></td>
-                <td th:text="${seleccion.nombre}"></td>
-                <td th:text="${seleccion.continente.nombre}"></td>
-                <td th:text="${seleccion.grupo}"></td>
-                <td> <a th:href="@{/controlador/selecciones/editar/{id}(id=${seleccion.id})}">Editar</a>  <a th:href="@{/controlador/selecciones/eliminar/{id}(id=${seleccion.id})}">Eliminar</a>  <a th:href="@{/controlador/selecciones/{id}/resultados(id=${seleccion.id})}">Resultados</a> </td>
-            </tr>
-        </tbody>
-    </table>
+    <div class="container">
+        <h1>Selecciones</h1>
+        
+        <table class="table">
+            <thead class="thead-light">
+                <tr>
+                    <th>ID</th>
+                    <th>Nombre</th>
+                    <th>Continente</th>
+                    <th>Grupo</th>
+                    <th>Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="seleccion : ${selecciones}">
+                    <td th:text="${seleccion.id}"></td>
+                    <td th:text="${seleccion.nombre}"></td>
+                    <td th:text="${seleccion.continente.nombre}"></td>
+                    <td th:text="${seleccion.grupo}"></td>
+                    <td>
+                        <a class="btn btn-primary" th:href="@{/controlador/selecciones/editar/{id}(id=${seleccion.id})}">Editar</a>
+                        <a class="btn btn-danger" th:href="@{/controlador/selecciones/eliminar/{id}(id=${seleccion.id})}">Eliminar</a>
+                        <a class="btn btn-secondary" th:href="@{/controlador/selecciones/{id}/resultados(id=${seleccion.id})}">Resultados</a>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        
+        <a class="btn btn-success" th:href="@{/controlador/agregar}">Registrar una selección</a>
+    </div>
     
-    
-    <a th:href="@{/controlador/agregar}">Registrar una selecciones</a>
-    
-    <br>
-    
-    
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js"></script>
 </body>
 </html>
