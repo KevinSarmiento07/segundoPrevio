@@ -108,6 +108,16 @@ public class Controlador {
 	}
 	
 	
+	@GetMapping("/selecciones/grupo/{grupo}")
+	public String listarGrupos(@PathVariable("grupo") String grupo, Model model) {
+		
+		List<Seleccion> selecciones = seleccionRepository.findByGrupo(grupo);
+		model.addAttribute("selecciones", selecciones);
+		
+		return "listarSeleccionGrupo";
+	}
+	
+	
 	
 	
 	
